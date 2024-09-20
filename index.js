@@ -17,7 +17,6 @@ app.use('/static',express.static(path.join(__dirname,'attachments')));
 const  db = require('./models');
 const Roles = db.roles;
 const Users = db.users;
-const Catalog = db.catalog;
 
 //dev environment use {force: true} as param of sync to drop DB and rebuild
 db.sequelize.sync()
@@ -27,11 +26,12 @@ db.sequelize.sync()
   })
   .catch((err) => {
     console.log("Failed to sync db: " + err.message);
+    // console.log(err);
   });
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to pokedex api" });
+  res.json({ message: "Welcome to login api" });
 });
 
 // routes
