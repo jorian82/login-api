@@ -37,11 +37,9 @@ app.get("/", (req, res) => {
 // routes
 const auth = require('./routes/auth.routes');//(app);
 const user = require('./routes/user.routes');
-const pokemon = require('./routes/pokemon.routes');
 
 app.use('/api', auth);
 app.use('/api', user);
-app.use('/api', pokemon);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
@@ -51,16 +49,15 @@ app.listen(PORT, () => {
 
 function initialize() {
   addDefaultUsers();
-  checkPokemonCatalog();
 }
 
 const addDefaultUsers = () => {
   Roles.findAndCountAll()
       .then(({count,rows}) => {
         if(count<1) {
-          Roles.create({ id: 1, name: "user" });
-          Roles.create({ id: 2, name: "creator" });
-          Roles.create({ id: 3, name: "admin" });
+          Roles.create({ id: 1, name: "user" }).then(role => console.log(role));
+          Roles.create({ id: 2, name: "creator" }).then(role => console.log(role));
+          Roles.create({ id: 3, name: "admin" }).then(role => console.log(role));
 
           Users.create({ id: 1, username: 'defaultAdmin', firstName: 'Default', lastName: 'Admin', email: 'admin@example.com', password: bcrypt.hashSync('default.admin', 8) })
               .then( user => { user.setRoles([3]); })
@@ -75,25 +72,4 @@ const addDefaultUsers = () => {
       })
       .catch( error => console.log("Error counting roles: ", error)
       );
-}
-
-const checkPokemonCatalog = () => {
-  Catalog.findAndCountAll()
-      .then( ({count, rows}) => {
-        if(count<1) {
-          fetch(`https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0`)
-              .then(response => response.json())
-              .then(data => {
-                data.results.forEach( (pkm, index) => {
-                  Catalog.create({
-                    name: pkm.name,
-                    url: pkm.url
-                  })
-                })
-                  console.log("Catalog successfully loaded...")
-              });
-        } else {
-            console.log("Catalog already loaded...");
-        }
-      });
 }

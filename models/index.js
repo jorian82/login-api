@@ -1,11 +1,16 @@
 // SQLite configuration
-const dbConfig = require("../config/db.config.sqlite");
-const Sequelize= require("sequelize");
+const dbConfig = require("../config/db.config.postgres");
+const { Sequelize } = require("sequelize");
 
-const sequelize = new Sequelize({
-    dialect: dbConfig.dialect,
-    storage: dbConfig.storage
-});
+const sequelize = new Sequelize(
+    dbConfig.DB,
+    dbConfig.USER,
+    '',
+    {
+        host: dbConfig.HOST,
+        dialect: dbConfig.dialect,
+    }
+)
 
 const db = {};
 db.Sequelize = Sequelize;
@@ -14,9 +19,6 @@ db.sequelize = sequelize;
 //DB table definition
 db.users = require('./model.user')(sequelize, Sequelize);
 db.roles = require('./model.role')(sequelize, Sequelize);
-db.catalog = require('./model.catalog')(sequelize, Sequelize);
-db.pokemons = require('./model.pokemon')(sequelize, Sequelize);
-db.favorites = require('./model.favorites')(sequelize, Sequelize);
 db.refreshToken = require('./model.refreshToken')(sequelize, Sequelize);
 
 // DB tables relationships
