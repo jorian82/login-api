@@ -1,6 +1,6 @@
 module.exports = {
     HOST: "localhost",
-    USER: "jra",
+    USER: "jorian",
     DB: "loginapi",
     dialect: "postgres",
     pool: {

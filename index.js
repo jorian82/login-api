@@ -37,9 +37,11 @@ app.get("/", (req, res) => {
 // routes
 const auth = require('./routes/auth.routes');//(app);
 const user = require('./routes/user.routes');
+const role = require('./routes/rol.routes');
 
 app.use('/api', auth);
 app.use('/api', user);
+app.use('/api', role);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

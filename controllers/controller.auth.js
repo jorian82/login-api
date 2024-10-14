@@ -35,12 +35,13 @@ exports.signup = (req, res) => {
       }
     })
     .catch(err => {
+      console.log('Error: ', err);
       res.status(500).send({ message: err.message });
     });
 };
 
 exports.signin = (req, res) => {
-  console.log('request body: ',req.body);
+  // console.log('request body: ',req.body);
   User.findOne({
     where: {
       username: req.body.username
