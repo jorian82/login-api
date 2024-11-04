@@ -1,4 +1,4 @@
-# Pokedex-API
+# Login-API
 Project created with Node 20 LTS, Express 4, sqlite3, sequelize v6 and bcryptjs v2 to encrypt user passwords 
 
 ## App Structure
